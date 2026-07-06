@@ -22,6 +22,17 @@ func TestAccDataSourceOutpost(t *testing.T) {
 	})
 }
 
+func TestDataSourceOutpostIDComputed(t *testing.T) {
+	idSchema := Provider("testing", true).DataSourcesMap["authentik_outpost"].Schema["id"]
+
+	if !idSchema.Optional {
+		t.Fatal("authentik_outpost id should remain optional for lookup by id")
+	}
+	if !idSchema.Computed {
+		t.Fatal("authentik_outpost id should be computed for lookup by name")
+	}
+}
+
 func testAccDataSourceOutpostConfig(name string) string {
 	return fmt.Sprintf(`
 data "authentik_flow" "default-authorization-flow" {
